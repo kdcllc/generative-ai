@@ -1,0 +1,7 @@
+{
+  "type": "azure",
+  "model": "gpt-35-turbo",
+  "endpoint": "https://bet-openai.openai.azure.com/",
+  "apikey": "47e4e2c1692d40ddbeeb27910cc65785",
+  "org": ""
+}
