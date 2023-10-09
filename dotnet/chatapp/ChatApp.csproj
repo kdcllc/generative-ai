@@ -15,7 +15,10 @@
 	<ItemGroup>
 		<PackageReference Include="Bet.Extensions.Templating.Console" Version="2.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.*" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="0.24.230918.1-preview" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.*" />
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets"
+			Version="1.17.*" />
 	</ItemGroup>
 </Project>

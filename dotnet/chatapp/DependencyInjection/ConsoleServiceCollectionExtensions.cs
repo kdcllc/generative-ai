@@ -16,15 +16,18 @@ public static class ConsoleServiceCollectionExtensions
     {
         services.AddScoped<IMain, Main>();
 
+        // add scoped instance of the kernel service
+        services.AddScoped<KernelService>();
+
         // Register the OpenAiOptions with the service collection
         services.AddOptions<OpenAiOptions>()
             .Configure<IConfiguration>((options, configuration) =>
             {
-                options.Key = configuration["OpenAiOptions:Key"];
-                options.Endpoint = new Uri(configuration["OpenAiOptions:Endpoint"]);
-                options.DeploymentId = configuration["OpenAiOptions:DeploymentId"];
-            });
-            //.ValidateDataAnnotations();
+                options.Key = configuration["OpenAiOptions:Key"]!;
+                options.Endpoint = new Uri(configuration["OpenAiOptions:Endpoint"]!);
+                options.DeploymentId = configuration["OpenAiOptions:DeploymentId"]!;
+                options.IsAzure = configuration.GetValue<bool>("OpenAiOptions:IsAzure");
+            }).ValidateDataAnnotations();
 
         // Register the IDemo implementations with the service collection
         services.AddTransient<IDemo, BasicDemo>();

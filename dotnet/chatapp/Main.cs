@@ -1,18 +1,24 @@
 ﻿using ChatApp.Demos;
+using Microsoft.Extensions.Options;
 
 public class Main : IMain
 {
     private readonly ILogger<Main> _logger;
+    private readonly CliOptions _cliOptions;
+
     private readonly IEnumerable<IDemo> demos;
 
     private readonly IHostApplicationLifetime _applicationLifetime;
 
     public Main(
+        IOptions<CliOptions> cliOptions,
         IEnumerable<IDemo> demos,
         IHostApplicationLifetime applicationLifetime,
         IConfiguration configuration,
         ILogger<Main> logger)
     {
+        _cliOptions = cliOptions.Value;
+
         this.demos = demos ?? throw new ArgumentNullException(nameof(demos));
 
         _applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
@@ -24,12 +30,20 @@ public class Main : IMain
 
     public async Task<int> RunAsync()
     {
-        _logger.LogInformation("Main executed");
 
-        foreach (var demo in demos)
+        var demo = demos.FirstOrDefault(d => d.Name == _cliOptions.Name);
+
+        if (demo is not null)
         {
+            _logger.LogInformation("Demo: {Name}", _cliOptions.Name ?? "BasicDemo");
+
             await demo.RunAsync(_applicationLifetime.ApplicationStopping);
         }
+        else
+        {
+            _logger.LogWarning("No demo with name: {Name}", _cliOptions.Name);
+        }
+
         // use this token for stopping the services
         _applicationLifetime.ApplicationStopping.ThrowIfCancellationRequested();
 
