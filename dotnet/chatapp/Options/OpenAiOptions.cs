@@ -25,7 +25,13 @@ public class OpenAiOptions
     /// </summary>
     [Required]
     [RegularExpression("^[a-zA-Z0-9-]+$")]
-    public string DeploymentId { get; set; } = string.Empty;
+    public string ModelId { get; set; } = string.Empty;
+
+
+    /// <summary>
+    /// Add Embeddings Id that are deployed within the services.
+    /// </summary>
+    public string EmbeddingsId { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether the OpenAI API is hosted on Azure.

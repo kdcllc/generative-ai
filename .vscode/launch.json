@@ -9,8 +9,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "dotnet: build",
-            "program": "${workspaceFolder}/dotnet/chatapp/bin/Debug/net7.0/chatapp.dll",
-            "args": [],
+            "program": "${workspaceFolder}/dotnet/chatapp/bin/Debug/net7.0/ChatApp.dll",
+            "args": ["name", "MemoryDemo"],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "integratedTerminal"

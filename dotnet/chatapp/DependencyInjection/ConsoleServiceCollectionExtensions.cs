@@ -1,5 +1,6 @@
 ﻿using ChatApp.Demos;
 using ChatApp.Options;
+using ChatApp.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +18,11 @@ public static class ConsoleServiceCollectionExtensions
         services.AddScoped<IMain, Main>();
 
         // add scoped instance of the kernel service
-        services.AddScoped<KernelService>();
+        services.AddSingleton<KernelService>();
+        services.AddSingleton<InMemoryService>();
+
+        // add this for IHttpFactory.
+        services.AddHttpClient();
 
         // Register the OpenAiOptions with the service collection
         services.AddOptions<OpenAiOptions>()
@@ -25,12 +30,15 @@ public static class ConsoleServiceCollectionExtensions
             {
                 options.Key = configuration["OpenAiOptions:Key"]!;
                 options.Endpoint = new Uri(configuration["OpenAiOptions:Endpoint"]!);
-                options.DeploymentId = configuration["OpenAiOptions:DeploymentId"]!;
+                options.ModelId = configuration["OpenAiOptions:ModelId"]!;
+                options.EmbeddingsId = configuration["OpenAiOptions:EmbeddingsId"]!;
                 options.IsAzure = configuration.GetValue<bool>("OpenAiOptions:IsAzure");
             }).ValidateDataAnnotations();
 
         // Register the IDemo implementations with the service collection
         services.AddTransient<IDemo, BasicDemo>();
+        services.AddTransient<IDemo, DateTimeDemo>();
+        services.AddTransient<IDemo, MemoryDemo>();
     }
 
 }

@@ -1,22 +1,21 @@
-
-using ChatApp.Options;
-using Microsoft.Extensions.Options;
+using ChatApp.Services;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI;
 
 namespace ChatApp.Demos;
 
 /// <summary>
-/// Executes questions against the OpenAI model.
-/// - if asked: "what is current time?" it does not know the answer.
+/// Executes questions against the (Azure) OpenAI model.
+/// - if asked: "what is current time in Israel?" it does not know the answer.
 /// - doesn't have the context for the next prediction.
+/// - the chat is stateless
 /// </summary> 
 public class BasicDemo : IDemo
 {
     private readonly ILogger<BasicDemo> _logger;
     private readonly IKernel _kernel;
 
-    public string Name => "Basic";
+    public string Name => nameof(BasicDemo);
 
     public BasicDemo(
         KernelService kernelService,
@@ -36,8 +35,10 @@ public class BasicDemo : IDemo
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            _logger.LogInformation("Q: ");
+            Console.WriteLine("Question: ");
+
             var question = Console.ReadLine();
+
             if (string.IsNullOrEmpty(question) || question.Equals("exit", StringComparison.OrdinalIgnoreCase))
             {
                 break;
@@ -56,7 +57,7 @@ public class BasicDemo : IDemo
             };
 
             var answer = await _kernel.InvokeSemanticFunctionAsync(question!, requestSettings: options);
-            _logger.LogInformation("A: {0}", answer.GetValue<string>());
+            Console.WriteLine("Answer: {0}", answer.GetValue<string>());
         }
     }
 }
