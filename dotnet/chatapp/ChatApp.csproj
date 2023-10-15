@@ -21,6 +21,8 @@
 
 		<PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta1" />
 
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Memory.Sqlite" Version="1.0.0-beta1" />
+
 		<!-- To be used for storing emdendings for the context -->
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta1" />
 

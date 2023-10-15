@@ -19,21 +19,18 @@ public static class ConsoleServiceCollectionExtensions
 
         // add scoped instance of the kernel service
         services.AddSingleton<KernelService>();
-        services.AddSingleton<InMemoryService>();
+        services.AddSingleton<MemoryService>();
 
         // add this for IHttpFactory.
         services.AddHttpClient();
 
         // Register the OpenAiOptions with the service collection
         services.AddOptions<OpenAiOptions>()
-            .Configure<IConfiguration>((options, configuration) =>
-            {
-                options.Key = configuration["OpenAiOptions:Key"]!;
-                options.Endpoint = new Uri(configuration["OpenAiOptions:Endpoint"]!);
-                options.ModelId = configuration["OpenAiOptions:ModelId"]!;
-                options.EmbeddingsId = configuration["OpenAiOptions:EmbeddingsId"]!;
-                options.IsAzure = configuration.GetValue<bool>("OpenAiOptions:IsAzure");
-            }).ValidateDataAnnotations();
+            .Bind(hostBuilder.Configuration.GetSection("OpenAiOptions"))
+            .ValidateDataAnnotations();
+
+        services.Configure<MemoryOptions>(hostBuilder.Configuration.GetSection("MemoryOptions"));
+
 
         // Register the IDemo implementations with the service collection
         services.AddTransient<IDemo, BasicDemo>();

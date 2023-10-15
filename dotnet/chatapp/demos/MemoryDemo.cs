@@ -1,7 +1,5 @@
-using System;
 using System.Text;
 using ChatApp.Services;
-using Microsoft.ApplicationInsights.WindowsServer;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 
@@ -10,11 +8,11 @@ namespace ChatApp.Demos
     public class MemoryDemo : IDemo
     {
         private readonly IKernel? _kernel;
-        private readonly InMemoryService _memory;
+        private readonly MemoryService _memory;
 
         public MemoryDemo(
             KernelService kernel,
-            InMemoryService memory)
+            MemoryService memory)
         {
             _kernel = kernel.GetKernel();
             _memory = memory;
@@ -35,14 +33,26 @@ namespace ChatApp.Demos
                 Console.Write("Question: ");
                 var question = Console.ReadLine()!;
 
-                var urls = UrlExtractor.ExtractUrls(question);
+                if (string.IsNullOrEmpty(question) || question.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+
+                var nameList = new List<string>();
+
+                var urls = Utils.ExtractUrls(question);
                 if (urls.Count() > 0)
                 {
 
                     foreach (var url in urls)
                     {
-                        await _memory.AddContextFromUrlAsync(url, url, cancellationToken);
-                        var found = await _memory.SearchContextAsync(url, question, cancellationToken);
+                        var collectionName = await _memory.AddContextFromUrlAsync(url, cancellationToken);
+                        if (!nameList.Contains(collectionName))
+                        {
+                            nameList.Add(collectionName);
+                        }
+
+                        var found = await _memory.SearchContextAsync(collectionName, question, cancellationToken);
                         builder.AppendLine(found);
                     }
                 }
