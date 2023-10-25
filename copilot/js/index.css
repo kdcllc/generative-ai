@@ -1,0 +1,48 @@
+/* 
+    Create a layout for a header, main and footer elements.
+    The header should be fixed to the top.
+    The footer should be fixed to the bottom.
+    The main should be scrollable between header and the footer.
+*/
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+}
+
+/* create a style for id="chat-prompt" that displays it centered with round corners*/
+#chat-prompt {
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #ebf7eb;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    /* don't allow resize */
+    resize: none;
+    display: block;
+}

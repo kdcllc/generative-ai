@@ -26,6 +26,7 @@ Context of the chat must contain only relevant information in form of Embeddings
 ## References
 
 - [semantic kernel](https://github.com/microsoft/semantic-kernel)
+- [semantic memory](https://github.com/microsoft/semantic-memory)
 - [semantic kernel recipes](https://github.com/johnmaeda/SK-Recipes)
 - [Semantic Kernel Starters](https://github.com/microsoft/semantic-kernel-starters)
 - [Demystifying Retrieval Augmented Generation with .NET](https://devblogs.microsoft.com/dotnet/demystifying-retrieval-augmented-generation-with-dotnet/)
