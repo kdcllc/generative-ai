@@ -23,6 +23,7 @@ public class DateTimeDemo : IDemo
         _logger = logger;
     }
 
+    //<inheritdoc/>
     public async Task RunAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("DateTimeDemo is running");

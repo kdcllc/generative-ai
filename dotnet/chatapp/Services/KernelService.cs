@@ -2,6 +2,9 @@ using ChatApp.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 
+/// <summary>
+/// Service for creating and managing OpenAI kernels.
+/// </summary>
 namespace ChatApp.Services;
 
 public class KernelService
