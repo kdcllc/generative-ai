@@ -20,6 +20,22 @@
 
 - /new create a new express.js web
 
+## Optimizing Your Interaction with AI
+
+1. **Open Files**
+   - Keep related files open in VS Code for context analysis.
+2. **Top Level Comment**
+   - Provide a high-level introduction in your file.
+3. **Includes and References**
+   - Set the includes or module references manually.
+4. **Function Names**
+   - Use clear and descriptive names.
+5. **Function Comments**
+   - Complement names with detailed comments.
+6. **Prime with Sample Code**
+   - Initiate with code close to your desired outcome.
+   - 
+
 - [How to Use GitHub Copilot Labs to improve your Code Quality and Productivity](https://techcommunity.microsoft.com/t5/educator-developer-blog/how-to-use-github-copilot-labs-to-improve-your-code-quality-and/ba-p/3743021)
 
 - [Hype or not? AI’s benefits for developers explored in the 2023 Developer Survey](https://stackoverflow.blog/2023/06/14/hype-or-not-developers-have-something-to-say-about-ai/)
