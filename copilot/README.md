@@ -19,6 +19,7 @@
 - How do I scaffold an express application.
 
 - /new create a new express.js web
+- /createWorkspace create a new express.js web
 
 ## Optimizing Your Interaction with AI
 
@@ -34,7 +35,17 @@
    - Complement names with detailed comments.
 6. **Prime with Sample Code**
    - Initiate with code close to your desired outcome.
-   - 
+
+## References
+
+- [What is GitHub Copilot? [1 of 6]](https://www.youtube.com/watch?v=QG1E0SCqqW8&list=PLlrxD0HtieHgr23PS05FIncnih4dH9Na5&ab_channel=MicrosoftDeveloper)
+- [VSCode: GitHub Copilot Series](https://youtu.be/Fi3AJZZregI?list=PLj6YeMhvp2S5_hvBl2SE-7YCHYlLQ0bPt)
+- [Introduction to GitHub Copilot](https://youtu.be/mKzx4wDgFl8)
+- [Learning AI with Github Copilot](https://www.youtube.com/playlist?list=PLlrxD0HtieHiATMDpZkxxQL0YTTiMbcR9)
+
+- [GitHub Copilot Fundamentals - Understand the AI pair programmer](https://learn.microsoft.com/en-us/training/paths/copilot/)
+- [Introduction to GitHub Copilot](https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/)
+
 
 - [How to Use GitHub Copilot Labs to improve your Code Quality and Productivity](https://techcommunity.microsoft.com/t5/educator-developer-blog/how-to-use-github-copilot-labs-to-improve-your-code-quality-and/ba-p/3743021)
 
