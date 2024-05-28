@@ -70,3 +70,4 @@ Context of the chat must contain only relevant information in form of Embeddings
 
 -[From zero to - nearly - hero with Azure OpenAI NLP and vector-based search in Azure Cognitive Search](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/from-zero-to-nearly-hero-with-azure-openai-nlp-and-vector-based/ba-p/3936244) - the concepts and to exhibit a possible blueprint on using Azure OpenAI within your enterprise.
 ![From zero to - nearly - hero with Azure OpenAI NLP and vector-based search in Azure Cognitive Search](./images/from-0-hero-openai.png)
+
