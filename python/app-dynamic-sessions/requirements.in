@@ -1,0 +1,7 @@
+python-dotenv
+langchain
+langchain-azure-dynamic-sessions
+azure-identity
+openai
+langchainhub
+langchain-openai
