@@ -1,0 +1,7 @@
+flask
+transformers
+numpy
+tensorflow
+tf-keras
+torch
+pickle-mixin
