@@ -1,8 +1,18 @@
 using System.Reflection;
+using ChatApp.Demos;
+using CommandLine;
 
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.AzureAnalytics;
+
+// parse the cli options
+var options = Parser.Default.ParseArguments<CliOptions>(args);
+
+if (options.Errors.Any())
+{
+    return 1;
+}
 
 // Start our smart AppHost
 AppHost.Start(args, Assembly.GetEntryAssembly()?.GetName().Name);
@@ -34,6 +44,12 @@ try
 
     using var host = AppHost
                     .CreateHostBuilder()
+                    .ConfigureServices(services =>
+                    {
+                        // adding options for the main app
+                        services.AddOptions<CliOptions>()
+                                .Configure(o => o.Name = options.Value.Name);
+                    })
                     .ConfigureServices(ConsoleServiceCollectionExtensions.ConfigureServices)
                     .Build();
 

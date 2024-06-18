@@ -1,54 +1,63 @@
-
-using ChatApp.Options;
-using Microsoft.Extensions.Options;
+using ChatApp.Services;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.AI;
 
 namespace ChatApp.Demos;
 
 /// <summary>
-/// Executes questions against the OpenAI model.
-/// if asked: "what is current time?" it does not know the answer.
+/// Executes questions against the (Azure) OpenAI model.
+/// - if asked: "what is current time in Israel?" it does not know the answer.
+/// - doesn't have the context for the next prediction.
+/// - the chat is stateless
 /// </summary> 
 public class BasicDemo : IDemo
 {
     private readonly ILogger<BasicDemo> _logger;
-    private readonly OpenAiOptions _openApiOptions;
+    private readonly IKernel _kernel;
+
+    public string Name => nameof(BasicDemo);
 
     public BasicDemo(
-        IOptions<OpenAiOptions> openApiOptions,
+        KernelService kernelService,
         ILogger<BasicDemo> logger)
     {
+        _kernel = kernelService.GetKernel()!;
         _logger = logger;
-        _openApiOptions = openApiOptions.Value;
     }
 
     //<inheritdoc/>
     public async Task RunAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("BasicDemo is running");
-        _logger.LogInformation($"OpenApiOptions: {_openApiOptions.DeploymentId}");
-
-        // Initialize the kernel
-        IKernel kernel = Kernel.Builder
-            .WithAzureChatCompletionService(
-                _openApiOptions.DeploymentId,
-                _openApiOptions.Endpoint.ToString(),
-                _openApiOptions.Key)
-            .Build();
 
         // Q&A loop
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            _logger.LogInformation("Q: ");
+            Console.WriteLine("Question: ");
+
             var question = Console.ReadLine();
+
             if (string.IsNullOrEmpty(question) || question.Equals("exit", StringComparison.OrdinalIgnoreCase))
             {
                 break;
             }
-            var answer = await kernel.InvokeSemanticFunctionAsync(question!, maxTokens: 2000);
-            _logger.LogInformation("A: {0}",answer);
+
+            var options = new AIRequestSettings
+            {
+                ExtensionData = new Dictionary<string, object>{
+                    {"temperature", 0.9},
+                    {"max_tokens", 2000},
+                    {"top_p", 1.0},
+                    {"frequency_penalty", 0.0},
+                    {"presence_penalty", 0.0},
+                    {"stop", "\n"}
+                }
+            };
+
+            var answer = await _kernel.InvokeSemanticFunctionAsync(question!, requestSettings: options);
+            Console.WriteLine("Answer: {0}", answer.GetValue<string>());
         }
     }
 }

@@ -10,12 +10,23 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<RollForward>LatestMajor</RollForward>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Bet.Extensions.Templating.Console" Version="2.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.*" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="0.24.230918.1-preview" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.*" />
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta1" />
+
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Memory.Sqlite" Version="1.0.0-beta1" />
+
+		<!-- To be used for storing emdendings for the context -->
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta1" />
+
+		<!-- https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker?view=aspnetcore-8.0 -->
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.*" />
 	</ItemGroup>
 </Project>
