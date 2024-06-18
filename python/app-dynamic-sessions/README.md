@@ -59,3 +59,4 @@ To run the application locally, follow these steps:
 - [Role-based access control for Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/role-based-access-control)
 - [container-apps-dynamic-sessions-samples](https://github.com/Azure-Samples/container-apps-dynamic-sessions-samples)
 - [Azure Container Apps Newsletter – June 2024](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/azure-container-apps-newsletter-june-2024/ba-p/4165737)
+- [Secure Dynamic Session for AI Agent code execution](https://github.com/denniszielke/gen-ai-code-execution-agent)
