@@ -18,6 +18,19 @@ This sample requires either OpenAI endpoint or Azure OpenAI endpoint to run.
     export DOTNET_HOST_PATH=/home/kdcll/.dotnet/dotnet
 ```
 
+
+## Assistants API
+
+[Azure AI CLI](https://github.com/Azure/azure-ai-cli)
+
+```bash
+    dotnet tool install -g Azure.AI.CLI --prerelease
+
+    # or local
+    dotnet tool install Azure.AI.CLI --prerelease
+```
+
+
 Each request/ response between in the chat consumes tokens that (Azure) OpenAI charges and in addition models have context token limitations.
 
 Context of the chat must contain only relevant information in form of Embeddings -> to specific storage of the text -> Embeddings
