@@ -97,7 +97,7 @@ var chat = new AgentGroupChat(travelManager, travelAgent, flightAgent)
     {
         TerminationStrategy = new KernelFunctionTerminationStrategy(terminateFunction, kernel)
         {
-            Agents = new[] { travelManager },
+            Agents = [travelManager],
             ResultParser = (result) => result.GetValue<string>()?.Contains("yes", StringComparison.OrdinalIgnoreCase) ?? false,
             HistoryVariableName = "history",
             MaximumIterations = 10
