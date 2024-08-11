@@ -10,7 +10,7 @@
       "rollForward": false
     },
     "azure.ai.cli": {
-      "version": "1.0.0-preview-20240724.1",
+      "version": "1.0.0-preview-20240806.1",
       "commands": [
         "ai"
       ],

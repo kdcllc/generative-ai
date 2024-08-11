@@ -12,6 +12,9 @@ To install this tool locally to the project follow the following steps:
     # 3. install azure ai cli
     dotnet tool install Azure.AI.CLI --prerelease
 
+    # 3.a if already in the manifest then must be restored
+    dotnet tool restore
+
     # 4. init the tooling, this step will cache credentials locally
     dotnet ai init
 
@@ -24,8 +27,6 @@ To install this tool locally to the project follow the following steps:
     # 7. run this template with all of the env vars loaded, thanks to azure ai cli
     dotnet ai dev shell --run "dotnet run"
 ```
-
-
 
 ## Introduction
 
