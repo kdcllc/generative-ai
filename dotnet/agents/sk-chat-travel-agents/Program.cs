@@ -49,15 +49,14 @@ if (!ok)
 var builder = Kernel.CreateBuilder();
 builder.AddAzureOpenAIChatCompletion(AZURE_OPENAI_CHAT_DEPLOYMENT!, AZURE_OPENAI_ENDPOINT!, AZURE_OPENAI_API_KEY!);
 
-var kernel = builder.Build();
+var newKernel = new Func<Kernel>(() => builder.Build());
 
 const string travelAgentName = "TravelAgent";
 string travelAgentInstructions = """
-    You are a travel agent and you help users who want to make a trip to visit a city.
+    You are a travel agent and you help users who wants to make a trip to visit a city. 
     The goal is to create a plan to visit a city based on the user preferences and budget.
-    You don't have expertise on travel plans, so you can only suggest hotels, restaurants and places to see. 
-    You can't suggest traveling options like flights or trains.
-    You're laser focused on the goal at hand.
+    You don't have expertise on travel plans, so you can only suggest hotels, restaurants and places to see. You can't suggest travelling options like flights or trains.
+    You're laser focused on the goal at hand. 
     Once you have generated a plan, don't ask the user for feedback or further suggestions. Stick with it.
     Don't waste time with chit chat. Don't say goodbye and don't wish the user a good trip.
     """;
@@ -66,7 +65,7 @@ var travelAgent = new ChatCompletionAgent
 {
     Name = travelAgentName,
     Instructions = travelAgentInstructions,
-    Kernel = kernel
+    Kernel = newKernel()
 };
 
 const string flightExpertName = "FlightExpert";
@@ -84,7 +83,7 @@ var flightAgent = new ChatCompletionAgent
 {
     Name = flightExpertName,
     Instructions = flightExpertInstructions,
-    Kernel = kernel
+    Kernel = newKernel()
 };
 
 string travelManagerName = "TravelManager";
@@ -100,48 +99,74 @@ var travelManager = new ChatCompletionAgent
 {
     Name = travelManagerName,
     Instructions = travelManagerInstructions,
-    Kernel = kernel
+    Kernel = newKernel()
+};
+
+const string trainExpertName = "TrainExpert";
+string trainExpertInstructions = """
+        Your are an expert in train travel and you are specialized in organizing train trips by identifying the best train options for your clients.
+        Your goal is to create a train plan to reach a city based on the user prefences and budget.
+        You don't have experience on any other travel options, so you can only suggest train options.
+        You're laser focused on the goal at hand. You can provide plans only about trains. Do not include plans around lodging, meals or sightseeing.
+        Once you have generated a train plan, don't ask the user for feedback or further suggestions. Stick with it.
+        Don't waste time with chit chat. Don't say goodbye and don't wish the user a good trip.
+    """;
+
+var trainAgent = new ChatCompletionAgent
+{
+    Name = trainExpertName,
+    Instructions = trainExpertInstructions,
+    Kernel = newKernel()
 };
 
 var terminateFunction = KernelFunctionFactory.CreateFromPrompt(
-    """
-    Determine if the travel plan has been approved. If so, respond with a single word: yes.
+    $$$"""
+    Determine if the travel plan has been approved by {{{travelManagerName}}}. If so, respond with a single word: yes.
+
     History:
+
     {{$history}}
     """
-);
+    );
 
-var selectionFunction = KernelFunctionFactory.CreateFromPrompt(
-    """
+KernelFunction selectionFunction = KernelFunctionFactory.CreateFromPrompt(
+    $$$"""
     Your job is to determine which participant takes the next turn in a conversation according to the action of the most recent participant.
     State only the name of the participant to take the next turn.
+
     Choose only from these participants:
     - {{{travelManagerName}}}
     - {{{travelAgentName}}}
     - {{{flightExpertName}}}
-    Always follow these steps when selecting the next participant:
+    - {{{trainExpertName}}}
+
+    Always follow these four when selecting the next participant:
     1) After user input, it is {{{travelAgentName}}}'s turn.
-    2) After {{{travelAgentName}}} replies, it's {{{flightExpertName}}}'s turn.
-    3) After {{{flightExpertName}}} replies, it's {{{travelManagerName}}}'s turn to review and approve the plan.
+    2) After {{{travelAgentName}}} replies, it's {{{flightExpertName}}}'s turn to generate a flight plan for the given trip.
+    - If the user prefers to travel by train, it's {{{trainExpertName}}}'s turn.
+    - If the user prefers to travel by flight, it's {{{flightExpertName}}}'s turn.
+
+    3) Finally, it's {{{travelManagerName}}}'s turn to review and approve the plan.
     4) If the plan is approved, the conversation ends.
     5) If the plan isn't approved, it's {{{travelAgent}}}'s turn again.
+
     History:
     {{$history}}
     """
-);
+    );
 
-var chat = new AgentGroupChat(travelManager, travelAgent, flightAgent)
+var chat = new AgentGroupChat(travelManager, travelAgent, flightAgent, trainAgent)
 {
     ExecutionSettings = new()
     {
-        TerminationStrategy = new KernelFunctionTerminationStrategy(terminateFunction, kernel)
+        TerminationStrategy = new KernelFunctionTerminationStrategy(terminateFunction, newKernel())
         {
             Agents = [travelManager],
             ResultParser = (result) => result.GetValue<string>()?.Contains("yes", StringComparison.OrdinalIgnoreCase) ?? false,
             HistoryVariableName = "history",
             MaximumIterations = 10
         },
-        SelectionStrategy = new KernelFunctionSelectionStrategy(selectionFunction, kernel)
+        SelectionStrategy = new KernelFunctionSelectionStrategy(selectionFunction, newKernel())
         {
             AgentsVariableName = "agents",
             HistoryVariableName = "history"

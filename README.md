@@ -8,12 +8,6 @@ This sample requires either OpenAI endpoint or Azure OpenAI endpoint to run.
 
 
 ```bash
-    # to run from the root of the solution
-    dotnet run --project  dotnet/chatapp/ChatApp.csproj --name BasicDemo
-     dotnet run --project  dotnet/chatapp/ChatApp.csproj --name DateTimeDemo
-```
-
-```bash
     export DOTNET_ROLL_FORWARD=LatestMajor
     export DOTNET_HOST_PATH=/home/kdcll/.dotnet/dotnet
 ```
